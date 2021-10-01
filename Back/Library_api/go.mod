@@ -1,4 +1,4 @@
-module Monitorapp_Library
+module Library_api
 
 go 1.17
 

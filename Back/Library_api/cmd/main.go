@@ -1,7 +1,7 @@
 package main
 
 import (
-	"Monitorapp_Library/f"
+	"Library_api/f"
 
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
@@ -37,11 +37,11 @@ func main() {
 	e.DELETE("/library/order/:o_id", f.DelOrderById)
 
 	//start server
-	e.Start(":2000")
+	e.Start(":2045")
 
 }
 
 //# root
 func home(c echo.Context) error {
-	return c.File("../public/view/index.html")
+	return c.File("Libray_api/front/monitorapp-library-react-app/monitorapp-library-react-app/build/index.html")
 }

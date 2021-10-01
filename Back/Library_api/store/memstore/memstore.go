@@ -1,7 +1,7 @@
 package memstore
 
 import (
-	"Monitorapp_Library/model"
+	"Library_api/model"
 	"errors"
 	"time"
 )

@@ -1,7 +1,7 @@
 package f
 
 import (
-	"Monitorapp_Library/model"
+	"Library_api/model"
 	"net/http"
 
 	"github.com/go-playground/validator"

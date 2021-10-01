@@ -1,8 +1,8 @@
 package store
 
 import (
-	"Monitorapp_Library/model"
-	"Monitorapp_Library/store/memstore"
+	"Library_api/model"
+	"Library_api/store/memstore"
 )
 
 type Store interface {
