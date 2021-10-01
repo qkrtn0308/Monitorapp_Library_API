@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="with=device-width, initial-scale=1.0" />
+        <title>Library website</title>
+        <link rel="stylesheet" href="../css/style.css" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;600&display=swap"
+            rel="stylesheet"
+        />
+    </head>
+
+    <body>
+        <section class="header">
+            <nav>
+                <a href="index.html"><img src="../image_source/web_logo.jpg" /></a>
+                <div class="nav-links">
+                    <ul>
+                        <li><a href="index.html">HOME</a></li>
+                        <li><a href="Badrequest.html">ABOUT</a></li>
+                        <li><a href="Badrequest.html">BOOK</a></li>
+                        <li><a href="Badrequest.html">RENT/RETURN</a></li>
+                        <li><a href="Badrequest.html">USER</a></li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="text-box">
+                <h1>MonitorApp Library</h1>
+                <p>
+                    Find, Discover and Improve yourself with monitorapp library.
+                    we provide various genre, even comics!
+                    <br />
+                    Just come and read. You can feel difference.
+                </p>
+            </div>
+            <div class="wrapper">
+                <div class="container">
+                    <div class="search_wrap">
+                        <div class="search_box">
+                            <form method="GET" action="localhost:2000/book/">
+                                <p>status:
+                                <input
+                                    type="text"
+                                    name="status"
+                                    class="input"
+                                    placeholder="Title/Author/Genre..."
+                                />
+                                </p>
+                            </form>
+                            <div class="btn">
+                                <p>Search</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bookoffer">
+            <h1>Today's Book</h1>
+            <p>Get completley right book from recomand section</p>
+        </section>
+    </body>
+</html>
