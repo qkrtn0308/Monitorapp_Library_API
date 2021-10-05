@@ -10,13 +10,13 @@ import (
 func main() {
 	e := echo.New()
 
-	e.Static("/public/", "./public/")
+	//e.Static("/public/", "./public/")
 	// Middleware
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
 	// Routes
-	e.GET("/", home)
+	e.GET("/a", f.Login)
 
 	e.GET("/user/login", f.Login)
 	e.GET("/user/logout", f.Logout)
@@ -36,12 +36,9 @@ func main() {
 	e.GET("/library/order/:o_id", f.FindOrderById)
 	e.DELETE("/library/order/:o_id", f.DelOrderById)
 
+	e.Static("/", "C:/Users/박수빈/Desktop/Library-API/front/monitorapp-library-react-app/build/index.html")
+
 	//start server
-	e.Start(":2045")
+	e.Start(":5000")
 
-}
-
-//# root
-func home(c echo.Context) error {
-	return c.File("Libray_api/front/monitorapp-library-react-app/monitorapp-library-react-app/build/index.html")
 }
