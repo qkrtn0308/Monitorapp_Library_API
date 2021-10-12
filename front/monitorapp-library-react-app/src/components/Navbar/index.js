@@ -9,13 +9,14 @@ import {
     NavMenu,
     NavItem,
     NavLinks,
+    NavLinkr,
     NavBtn,
     NavBtnLink,
 } from "./NavBarElements";
 import { IconContext } from "react-icons/lib";
 
 const Navbar = ({ toggle }) => {
-    const [scrollNav, setScrollNav] = useState(false);
+    const [scrollNav] = useState(false);
 
     useEffect(() => {
         scroll.scrollToTop()
@@ -36,16 +37,16 @@ const Navbar = ({ toggle }) => {
                     </MobileIcon>
                     <NavMenu>
                         <NavItem>
-                            <NavLinks to='/about'>ABOUT</NavLinks>
+                            <NavLinks to='InfoSection'>ABOUT</NavLinks>
                         </NavItem>
                         <NavItem>
-                            <NavLinks to='/book'>BOOK</NavLinks>
+                            <NavLinkr to='/book'>BOOK</NavLinkr>
                         </NavItem>
                         <NavItem>
-                            <NavLinks to='/rent-return'>RENT/RETURN</NavLinks>
+                            <NavLinkr to='/rent-return'>RENT/RETURN</NavLinkr>
                         </NavItem>
                         <NavItem>
-                            <NavLinks to='/user'>USER</NavLinks>
+                            <NavLinkr to='/user'>USER</NavLinkr>
                         </NavItem>
                     </NavMenu>
                     <NavBtn>

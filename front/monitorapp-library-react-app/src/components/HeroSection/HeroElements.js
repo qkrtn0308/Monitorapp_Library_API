@@ -8,7 +8,7 @@ export const HeroContainer = styled.div`
     justify-content: center;
     align-items: center;
     padding: 0 30px;
-    height: 1000px;
+    height: 1100px;
     position: relative;
     z-index: 1;
 

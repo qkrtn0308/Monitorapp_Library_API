@@ -3,6 +3,7 @@ package store
 import (
 	"Library_api/model"
 	"Library_api/store/memstore"
+	"Library_api/store/sqlstore"
 )
 
 type Store interface {
@@ -13,7 +14,7 @@ type Store interface {
 	UserDelByName(string) error
 	/**********책*********/
 	BookCreate(*model.Book) error
-	BookUpdates(*model.Book) (*model.Book, error)
+	BookUpdates(string, *model.Book) (*model.Book, error)
 	BookFindByBookStatus(string) (*model.Book, error)
 	BookFindByID(int) error
 	BookDelByID(int) error
@@ -27,9 +28,9 @@ func New(storeType string) Store {
 	switch storeType {
 	case "memory":
 		return &memstore.Memstore{}
-	// case "database":
-	// return &sqlstore.SQLStore{}
+	case "database":
+		return &sqlstore.SQLstore{}
 	default:
-		return &memstore.Memstore{}
+		return &sqlstore.SQLstore{}
 	}
 }

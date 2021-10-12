@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import {BookInfoContainer,Titlep, BookBtn, BookBtnLink, BookInfoH1, BookInfoWrapper, BookInfoCard,ImgWrap, Img1,Img2,Img3,Img4,Img5,Img6, BookInfoH2, BookInfoP} from './BookInfoElements'
 import img1 from '../../images/Just_do_it.png';
 import img2 from '../../images/Programing_with_best_teacher.png';
@@ -22,7 +21,6 @@ const BookInfoSection = () => {
                     </ImgWrap>
                 </BookInfoCard>
                 <BookInfoCard >
-                    <Link to="/signin"></Link>
                     <ImgWrap>
                         <Img2 src={img2} />
                         <BookInfoH2>Programing with best teacher</BookInfoH2>
@@ -61,15 +59,6 @@ const BookInfoSection = () => {
             <BookBtn>
                 <BookBtnLink to="/book">Get more !</BookBtnLink>
             </BookBtn>
-            {/* <BtnWrap>
-                <Button 
-                    to="home"
-                    smooth={true}
-                    duration={500}
-                    spy={true}
-                    exact="true"
-                    offset={-80}>GET More !</Button>
-            </BtnWrap> */}
         </BookInfoContainer>
     )
 

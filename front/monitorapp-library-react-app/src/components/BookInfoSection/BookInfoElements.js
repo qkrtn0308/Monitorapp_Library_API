@@ -100,8 +100,6 @@ export const Img6 = styled.img`
     height: 150px;
 
 `
-
-
 export const BookInfoH1 = styled.h1`
     text-align: center;
     font-size: 80px;
@@ -127,7 +125,7 @@ export const Titlep = styled.p`
 export const BookInfoH2 = styled.h2`
     font-size: 1rem;
     text-align: center;
-    margin-bottom: 10px;
+    margin-bottom: 10=px;
 `
 export const BookInfoP = styled.p`
     font-weight: 200;

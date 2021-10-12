@@ -4,6 +4,7 @@ import (
 	"Library_api/model"
 	"encoding/json"
 	"io"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -27,17 +28,22 @@ func BookCreate(c echo.Context) error {
 }
 func BookUpdate(c echo.Context) error {
 	/**************데이터 받음****************/
+	b := c.Param("b_name")
+
+	log.Println(c.Request().URL.String())
+	log.Println(b)
+
 	bodydata, _ := io.ReadAll(c.Request().Body)
 	defer c.Request().Body.Close()
 	data := model.Book{}
 	json.Unmarshal(bodydata, &data)
 	/****************데이터굴려**************/
-	_, err := s.BookUpdates(&data)
+	_, err := s.BookUpdates(b, &data)
 	if err != nil {
 		return c.NoContent(http.StatusInternalServerError)
 	}
-	model.BookInfoByID[data.ID] = &data
-	return c.JSON(http.StatusOK, model.BookInfoByID[data.ID])
+	//json 데이터 담는 부분
+	return c.JSON(http.StatusOK, model.UserInfoByName[b])
 }
 func FindBookStatus(c echo.Context) error {
 	/**************데이터 받음****************/
@@ -51,9 +57,9 @@ func FindBookStatus(c echo.Context) error {
 	return c.JSON(http.StatusOK, model.JsonBookArr)
 }
 func FindBookByID(c echo.Context) error {
-	p := c.Param("b_id")
-
-	n, _ := strconv.Atoi(p)
+	b := c.Param("b_id")
+	log.Println(c.Request().URL.String())
+	n, _ := strconv.Atoi(b)
 
 	err := s.BookFindByID(n)
 	if err != nil {
@@ -62,20 +68,15 @@ func FindBookByID(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, model.BookInfoByID[int64(n)])
 }
-
-// func FindBookByTitle(c echo.Context) error {}
 func DelBookByID(c echo.Context) error {
-	model.JsonBookArr = nil
-	p := c.Param("b_id")
+	b := c.Param("b_id")
 
-	n, _ := strconv.Atoi(p)
+	n, _ := strconv.Atoi(b)
 
-	err := s.BookFindByID(n)
+	err := s.BookDelByID(n)
 	if err != nil {
 		return c.NoContent(http.StatusInternalServerError)
 	}
 
-	delete(model.BookInfoByID, int64(n))
-
-	return c.NoContent(http.StatusOK)
+	return c.String(200, b)
 }

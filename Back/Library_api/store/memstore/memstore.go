@@ -3,7 +3,6 @@ package memstore
 import (
 	"Library_api/model"
 	"errors"
-	"time"
 )
 
 type Memstore struct {
@@ -66,7 +65,7 @@ func (s *Memstore) BookCreate(data *model.Book) error {
 	model.Lock.Unlock()
 	return nil
 }
-func (s *Memstore) BookUpdates(data *model.Book) (*model.Book, error) {
+func (s *Memstore) BookUpdates(b string, data *model.Book) (*model.Book, error) {
 	if model.BookInfoByID[data.ID].ID == data.ID {
 		model.BookInfoByID[data.ID] = data
 		return nil, nil
@@ -133,7 +132,6 @@ func (s *Memstore) OrderCreate(data *model.Order) error {
 		model.Lock.Lock()
 		OIDnum++
 		data.ID = OIDnum
-		data.RentalDate = time.Now()
 		data.Status = "placed"
 		model.Lock.Unlock()
 		return nil

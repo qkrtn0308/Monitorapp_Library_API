@@ -10,7 +10,8 @@ import (
 	"github.com/labstack/echo"
 )
 
-var s = store.New("memory")
+//var s = store.New("memory")
+var s = store.New("database")
 
 func UserCreate(c echo.Context) error {
 	/**************데이터 받음****************/
@@ -34,7 +35,7 @@ func FindUserByName(c echo.Context) error {
 	if err != nil {
 		return c.NoContent(http.StatusInternalServerError)
 	}
-	return c.JSON(http.StatusOK, model.UserInfoByName[u])
+	return c.NoContent(http.StatusOK)
 }
 func UserUpdate(c echo.Context) error {
 	/**************데이터 받음****************/
@@ -49,7 +50,7 @@ func UserUpdate(c echo.Context) error {
 	if err != nil {
 		return c.NoContent(http.StatusInternalServerError)
 	}
-	model.UserInfoByName[u] = &data
+	//json 데이터 담는 부분
 	return c.JSON(http.StatusOK, model.UserInfoByName[u])
 }
 func DelUserByName(c echo.Context) error {
