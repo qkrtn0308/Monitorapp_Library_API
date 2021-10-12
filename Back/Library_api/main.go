@@ -20,9 +20,9 @@ func main() {
 	e.GET("/logout", f.Logout)
 
 	e.POST("/book", f.BookCreate)
-	e.PUT("/book/:b_title", f.BookUpdate)
-	e.GET("/book/findByStatus", f.FindBookStatus)
+	e.GET("/book", f.FindBookStatus)
 	e.GET("/book/:b_id", f.FindBookByID)
+	e.PUT("/book/:b_id", f.BookUpdate)
 	e.DELETE("/book/:b_id:", f.DelBookByID)
 
 	e.POST("/user", f.UserCreate)

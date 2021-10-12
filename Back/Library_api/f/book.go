@@ -28,7 +28,7 @@ func BookCreate(c echo.Context) error {
 }
 func BookUpdate(c echo.Context) error {
 	/**************데이터 받음****************/
-	b := c.Param("b_name")
+	b := c.Param("b_id")
 
 	log.Println(c.Request().URL.String())
 	log.Println(b)

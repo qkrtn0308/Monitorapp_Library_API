@@ -6,7 +6,7 @@ import (
 
 type Book struct {
 	ID       int64  `json:"id"`
-	CodeID   int64  `json:"code" validate:"required, numeric"`
+	CodeID   string `json:"code" validate:"required"`
 	CodeName string `json:"codename" validate:"required, containsrune"`
 	Title    string `json:"title" validate:"required, containsrune"`
 	Author   string `json:"author" validate:"required, containsrune"`
