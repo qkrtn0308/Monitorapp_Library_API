@@ -9,6 +9,7 @@ import RentReturnPage from "./pages/rent-return";
 import UserPage from "./pages/user";
 import AboutPage from "./pages/about";
 import SignupPage from "./pages/signup";
+import FindpasswordPage from "./pages/findpassword"
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
                 <Route path="/user" component={UserPage} exact />
                 <Route path="/signin" component={SigninPage} exact />
                 <Route path="/signup" component={SignupPage} exact />
+                <Route path="/help" component={FindpasswordPage} exact />
             </Switch>
         </Router>
     );
