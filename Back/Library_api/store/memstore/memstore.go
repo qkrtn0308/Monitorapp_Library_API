@@ -12,7 +12,7 @@ type Memstore struct {
 func (s *Memstore) UserCreate(data *model.User) error {
 	if data == nil {
 		return errors.New("405")
-	} else if model.UserInfoByName[data.Username] != nil {
+	} else if model.UserInfoByEmail[data.Email] != nil {
 		return errors.New("405")
 	}
 
@@ -24,29 +24,29 @@ func (s *Memstore) UserCreate(data *model.User) error {
 	return nil
 }
 func (s *Memstore) UserFindByUsername(u string) (*model.User, error) {
-	if model.UserInfoByName[u] == nil {
+	if model.UserInfoByEmail[u] == nil {
 		return nil, errors.New("404")
-	} else if u == model.UserInfoByName[u].Username {
+	} else if u == model.UserInfoByEmail[u].Email {
 		return nil, nil
 	}
 	return nil, errors.New("404")
 }
 func (s *Memstore) UserUpdates(u string, data *model.User) (*model.User, error) {
-	if model.UserInfoByName[u] == nil {
+	if model.UserInfoByEmail[u] == nil {
 		return nil, errors.New("405")
 	}
 	//! id , username 고정
-	org_id := model.UserInfoByName[u].ID
-	org_username := model.UserInfoByName[u].Username
+	org_id := model.UserInfoByEmail[u].ID
+	org_email := model.UserInfoByEmail[u].Email
 	data.ID = org_id
-	data.Username = org_username
+	data.Email = org_email
 	return nil, nil
 }
 func (s *Memstore) UserDelByName(u string) error {
-	if model.UserInfoByName[u] == nil {
+	if model.UserInfoByEmail[u] == nil {
 		return errors.New("405")
 	}
-	delete(model.UserInfoByName, u)
+	delete(model.UserInfoByEmail, u)
 	return nil
 }
 

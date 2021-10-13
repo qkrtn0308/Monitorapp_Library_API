@@ -12,8 +12,8 @@ type SQLstore struct {
 func (s *SQLstore) UserCreate(data *model.User) error {
 	var db = DBopen()
 
-	insertDynStmt := `insert into "userdata"("username", "firstname", "lastname", "email", "password", "phone_num", "status") values($1, $2, $3, $4, $5, $6, $7)`
-	_, er := db.Exec(insertDynStmt, data.Username, data.FirstName, data.LastName, data.Email, data.Password, data.Phone, data.UserStatus)
+	insertDynStmt := `insert into "userdata"("firstname", "lastname", "email", "password", "phone_num", "status") values($1, $2, $3, $4, $5, $6)`
+	_, er := db.Exec(insertDynStmt, data.FirstName, data.LastName, data.Email, data.Password, data.Phone, data.UserStatus)
 
 	if er != nil {
 		panic(er)
@@ -33,7 +33,7 @@ func (d *SQLstore) UserFindByUsername(u string) (*model.User, error) {
 	var es []model.User
 	for row.Next() {
 		var e model.User
-		err = row.Scan(&e.ID, &e.Username, &e.FirstName, &e.LastName, &e.Email, &e.Password, &e.Phone, &e.UserStatus)
+		err = row.Scan(&e.ID, &e.FirstName, &e.LastName, &e.Email, &e.Password, &e.Phone, &e.UserStatus)
 		if err != nil {
 			panic(err)
 		}
@@ -53,8 +53,8 @@ func (d *SQLstore) UserFindByUsername(u string) (*model.User, error) {
 func (d *SQLstore) UserUpdates(u string, data *model.User) (*model.User, error) {
 	var db = DBopen()
 
-	updateDynStmt := "update userdata set username = $1, firstname = $2, lastname = $3, email = $4, password = $5, phone_num = $6, status = $7 where username = $8"
-	_, er := db.Exec(updateDynStmt, data.Username, data.FirstName, data.LastName, data.Email, data.Password, data.Phone, data.UserStatus, u)
+	updateDynStmt := "update userdata set firstname = $1, lastname = $2, email = $3, password = $4, phone_num = $5, status = $6 where email = $7"
+	_, er := db.Exec(updateDynStmt, data.FirstName, data.LastName, data.Email, data.Password, data.Phone, data.UserStatus, u)
 
 	if er != nil {
 		panic(er)
@@ -73,7 +73,7 @@ func (d *SQLstore) UserDelByName(u string) error {
 
 	for row.Next() {
 		var e model.User
-		err = row.Scan(&e.ID, &e.Username, &e.FirstName, &e.LastName, &e.Email, &e.Password, &e.Phone, &e.UserStatus)
+		err = row.Scan(&e.ID, &e.FirstName, &e.LastName, &e.Email, &e.Password, &e.Phone, &e.UserStatus)
 		if err != nil {
 			panic(err)
 		}
@@ -91,8 +91,8 @@ func (d *SQLstore) UserDelByName(u string) error {
 func (s *SQLstore) BookCreate(data *model.Book) error {
 	var db = DBopen()
 
-	insertDynStmt := `insert into "bookdata"("title", "author", "code", "codename") values($1, $2, $3, $4)`
-	_, er := db.Exec(insertDynStmt, data.Title, data.Author, data.CodeID, data.CodeName)
+	insertDynStmt := `insert into "bookdata"("title", "author", "code", "codename, "quantity") values($1, $2, $3, $4, $5)`
+	_, er := db.Exec(insertDynStmt, data.Title, data.Author, data.CodeID, data.CodeName, data.Quantity)
 
 	if er != nil {
 		panic(er)
@@ -104,8 +104,8 @@ func (s *SQLstore) BookCreate(data *model.Book) error {
 func (s *SQLstore) BookUpdates(b string, data *model.Book) (*model.Book, error) { //todo
 	var db = DBopen()
 	log.Println(b)
-	updateDynStmt := "UPDATE bookdata set title = $1, author = $2, code = $3, codename = $4, status = $5 where title = $6"
-	_, er := db.Exec(updateDynStmt, data.Title, data.Author, data.CodeID, data.CodeName, data.Status, b)
+	updateDynStmt := "UPDATE bookdata set title = $1, author = $2, code = $3, codename = $4, status = $5, quantity = $6 where title = $7"
+	_, er := db.Exec(updateDynStmt, data.Title, data.Author, data.CodeID, data.CodeName, data.Status, data.Quantity, b)
 
 	if er != nil {
 		panic(er)
@@ -131,7 +131,7 @@ func (s *SQLstore) BookFindByBookStatus(b string) (*model.Book, error) {
 		var es []model.Book
 		for row.Next() {
 			var e model.Book
-			err = row.Scan(&e.ID, &e.Title, &e.Author, &e.CodeID, &e.CodeName, &e.Status)
+			err = row.Scan(&e.ID, &e.Title, &e.Author, &e.CodeID, &e.CodeName, &e.Status, &e.Quantity)
 			if err != nil {
 				panic(err)
 			}
@@ -153,7 +153,7 @@ func (s *SQLstore) BookFindByBookStatus(b string) (*model.Book, error) {
 	var es []model.Book
 	for row.Next() {
 		var e model.Book
-		err = row.Scan(&e.ID, &e.Title, &e.Author, &e.CodeID, &e.CodeName, &e.Status)
+		err = row.Scan(&e.ID, &e.Title, &e.Author, &e.CodeID, &e.CodeName, &e.Status, &e.Quantity)
 		if err != nil {
 			panic(err)
 		}
@@ -177,7 +177,7 @@ func (s *SQLstore) BookFindByID(n int) error { //todo
 	var es []model.Book
 	for row.Next() {
 		var e model.Book
-		err = row.Scan(&e.ID, &e.Title, &e.Author, &e.CodeID, &e.CodeName, &e.Status)
+		err = row.Scan(&e.ID, &e.Title, &e.Author, &e.CodeID, &e.CodeName, &e.Status, &e.Quantity)
 		if err != nil {
 			panic(err)
 		}
@@ -204,7 +204,7 @@ func (s *SQLstore) BookDelByID(n int) error { //todo
 
 	for row.Next() {
 		var e model.Book
-		err = row.Scan(&e.ID, &e.CodeID, &e.CodeName, &e.Title, &e.Author, &e.Status)
+		err = row.Scan(&e.ID, &e.CodeID, &e.CodeName, &e.Title, &e.Author, &e.Status, &e.Quantity)
 		if err != nil {
 			panic(err)
 		}

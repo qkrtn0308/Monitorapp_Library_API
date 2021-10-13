@@ -24,8 +24,8 @@ func UserCreate(c echo.Context) error {
 	if err != nil {
 		return c.NoContent(http.StatusInternalServerError)
 	}
-	model.UserInfoByName[data.Username] = &data
-	return c.JSON(http.StatusOK, model.UserInfoByName[data.Username])
+	model.UserInfoByEmail[data.Email] = &data
+	return c.JSON(http.StatusOK, model.UserInfoByEmail[data.Email])
 }
 func FindUserByName(c echo.Context) error {
 	/**************데이터 받음****************/
@@ -51,7 +51,7 @@ func UserUpdate(c echo.Context) error {
 		return c.NoContent(http.StatusInternalServerError)
 	}
 	//json 데이터 담는 부분
-	return c.JSON(http.StatusOK, model.UserInfoByName[u])
+	return c.JSON(http.StatusOK, model.UserInfoByEmail[u])
 }
 func DelUserByName(c echo.Context) error {
 	/**************데이터 받음****************/

@@ -43,7 +43,7 @@ func BookUpdate(c echo.Context) error {
 		return c.NoContent(http.StatusInternalServerError)
 	}
 	//json 데이터 담는 부분
-	return c.JSON(http.StatusOK, model.UserInfoByName[b])
+	return c.JSON(http.StatusOK, model.BookInfoByTitle[b])
 }
 func FindBookStatus(c echo.Context) error {
 	/**************데이터 받음****************/

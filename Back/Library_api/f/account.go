@@ -17,11 +17,11 @@ func Login(c echo.Context) error {
 	b := c.QueryParam("password")
 
 	validator.New()
-	if model.UserInfoByName[a] == nil {
+	if model.UserInfoByEmail[a] == nil {
 		return c.NoContent(http.StatusBadRequest)
 	}
 
-	if model.UserInfoByName[a].Username == a && model.UserInfoByName[a].Password == b {
+	if model.UserInfoByEmail[a].Email == a && model.UserInfoByEmail[a].Password == b {
 		return c.String(http.StatusOK, "로그인 되었습니다~~")
 	} else {
 		return c.NoContent(http.StatusBadRequest)
@@ -42,8 +42,8 @@ func Signup(c echo.Context) error {
 	/****************데이터굴려**************/
 	var db = sqlstore.DBopen()
 
-	insertDynStmt := `insert into "userdata"("username", "firstname", "lastname", "email", "password", "phone_num") values($1, $2, $3, $4, $5, $6)`
-	_, er := db.Exec(insertDynStmt, data.Username, data.FirstName, data.LastName, data.Email, data.Password, data.Phone)
+	insertDynStmt := `insert into "userdata"("firstname", "lastname", "email", "password", "phone_num") values($1, $2, $3, $4, $5)`
+	_, er := db.Exec(insertDynStmt, data.FirstName, data.LastName, data.Email, data.Password, data.Phone)
 	log.Println(data.ID)
 	if er != nil {
 		panic(er)
