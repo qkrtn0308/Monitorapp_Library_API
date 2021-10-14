@@ -460,3 +460,18 @@ func (s *SQLstore) Rent(L1 string, L2 string) error {
 
 	//todo 유저 아이디 / 북 아이디가 존재하지 않을 경우!!
 }
+func (s *SQLstore) Return(L1 string, L2 string) error {
+	var db = DBopen()
+	t := time.Now().Format("2006-01-02 15:04:05")
+	insertDynStmt := `insert into log retutndate = $1 where userid = $2 AND bookid = $3`
+	_, er := db.Exec(insertDynStmt, L1, L2, t)
+
+	if er != nil {
+		panic(er)
+	}
+
+	defer db.Close()
+	return nil
+
+	//todo 유저 아이디 / 북 아이디가 존재하지 않을 경우!!
+}

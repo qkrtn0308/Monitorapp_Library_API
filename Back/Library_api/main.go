@@ -34,7 +34,7 @@ func main() {
 	e.DELETE("/user/code3", f.DelUserByStatusCode)
 
 	e.POST("/library/rent", f.Rent)
-	e.GET("/library/order/:o_id", f.Return)
+	e.GET("/libraryreturn", f.Return)
 
 	//start server
 	e.Start(":4000")

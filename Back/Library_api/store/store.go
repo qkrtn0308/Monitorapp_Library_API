@@ -22,6 +22,7 @@ type Store interface {
 	BookDelByStatusCode() error
 	/*********오더*********/
 	Rent(string, string) error
+	Return(string, string) error
 	// OrderFindById(int) error
 	// OrderDelById(int) error
 }
