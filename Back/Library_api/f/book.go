@@ -22,9 +22,7 @@ func BookCreate(c echo.Context) error {
 	if err != nil {
 		return c.NoContent(http.StatusInternalServerError)
 	}
-	model.BookInfoByID[data.ID] = &data
-	model.BookInfoByTitle[data.Title] = &data
-	return c.JSON(http.StatusOK, model.BookInfoByID[data.ID])
+	return c.NoContent(http.StatusOK)
 }
 func BookUpdate(c echo.Context) error {
 	/**************데이터 받음****************/
@@ -43,40 +41,50 @@ func BookUpdate(c echo.Context) error {
 		return c.NoContent(http.StatusInternalServerError)
 	}
 	//json 데이터 담는 부분
-	return c.JSON(http.StatusOK, model.BookInfoByTitle[b])
+	return c.NoContent(http.StatusOK)
 }
-func FindBookStatus(c echo.Context) error {
+func FindBookByStatus(c echo.Context) error {
 	/**************데이터 받음****************/
 	b := c.QueryParam("status")
+	log.Printf("%s", b)
+	n, _ := strconv.Atoi(b)
 
-	_, err := s.BookFindByBookStatus(b)
+	_, err := s.BookFindByBookStatus(n)
 	if err != nil {
 		return c.NoContent(http.StatusInternalServerError)
 	}
 
-	return c.JSON(http.StatusOK, model.JsonBookArr)
+	return c.String(http.StatusOK, b)
 }
-func FindBookByID(c echo.Context) error {
+func FindBookByKeyword(c echo.Context) error {
 	b := c.Param("b_id")
+	if len(b) < 3 {
+		return c.String(404, "검색할 키워드가 너무 짧습니다.")
+	}
 	log.Println(c.Request().URL.String())
-	n, _ := strconv.Atoi(b)
 
-	err := s.BookFindByID(n)
+	err := s.BookFindByKeyword(b)
 	if err != nil {
 		return c.NoContent(http.StatusInternalServerError)
 	}
 
-	return c.JSON(http.StatusOK, model.BookInfoByID[int64(n)])
+	return c.NoContent(http.StatusOK)
 }
-func DelBookByID(c echo.Context) error {
+func DelBookBykeyword(c echo.Context) error {
 	b := c.Param("b_id")
 
-	n, _ := strconv.Atoi(b)
-
-	err := s.BookDelByID(n)
+	err := s.BookDelByKeyword(b)
 	if err != nil {
 		return c.NoContent(http.StatusInternalServerError)
 	}
 
 	return c.String(200, b)
+}
+func DelBookByStatusCode(c echo.Context) error {
+	err := s.BookDelByStatusCode()
+	if err != nil {
+		return c.NoContent(http.StatusInternalServerError)
+	}
+
+	return c.String(200, "삭제")
 }

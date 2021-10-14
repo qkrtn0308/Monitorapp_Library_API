@@ -20,19 +20,21 @@ func main() {
 	e.GET("/logout", f.Logout)
 
 	e.POST("/book", f.BookCreate)
-	e.GET("/book", f.FindBookStatus)
-	e.GET("/book/:b_id", f.FindBookByID)
+	e.GET("/book", f.FindUserByStatusCode)
+	e.GET("/book/:b_id", f.FindBookByKeyword)
+	e.GET("/book/code", f.FindBookByStatus)
 	e.PUT("/book/:b_id", f.BookUpdate)
-	e.DELETE("/book/:b_id:", f.DelBookByID)
+	e.DELETE("/book/:code4:", f.DelBookByStatusCode)
 
 	e.POST("/user", f.UserCreate)
-	e.GET("/user/:u_name", f.FindUserByName)
+	e.GET("/user/:u_name", f.FindUserByKeyword)
+	e.GET("/user/code", f.FindUserByStatusCode)
 	e.PUT("/user/:u_name", f.UserUpdate)
-	e.DELETE("/user/:u_name", f.DelUserByName)
+	e.DELETE("/user/key", f.DelUserByKeyword)
+	e.DELETE("/user/code3", f.DelUserByStatusCode)
 
-	e.POST("/library/order", f.OrderCreate)
-	e.GET("/library/order/:o_id", f.FindOrderById)
-	e.DELETE("/library/order/:o_id", f.DelOrderById)
+	e.POST("/library/rent", f.Rent)
+	e.GET("/library/order/:o_id", f.Return)
 
 	//start server
 	e.Start(":4000")
