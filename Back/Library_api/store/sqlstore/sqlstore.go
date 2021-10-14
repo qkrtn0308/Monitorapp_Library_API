@@ -2,7 +2,9 @@ package sqlstore
 
 import (
 	"Library_api/model"
+	"errors"
 	"log"
+	"time"
 )
 
 type SQLstore struct {
@@ -12,8 +14,8 @@ type SQLstore struct {
 func (s *SQLstore) UserCreate(data *model.User) error {
 	var db = DBopen()
 
-	insertDynStmt := `insert into "userdata"("firstname", "lastname", "email", "password", "phone_num", "status") values($1, $2, $3, $4, $5, $6)`
-	_, er := db.Exec(insertDynStmt, data.FirstName, data.LastName, data.Email, data.Password, data.Phone, data.UserStatus)
+	insertDynStmt := `insert into "userdata"("id", "firstname", "lastname", "team", "phone_num",  "email", "password" ) values($1, $2, $3, $4, $5, $6, $7)`
+	_, er := db.Exec(insertDynStmt, data.ID, data.FirstName, data.LastName, data.Team, data.Phone, data.Email, data.Password)
 
 	if er != nil {
 		panic(er)
@@ -22,10 +24,10 @@ func (s *SQLstore) UserCreate(data *model.User) error {
 
 	return nil
 }
-func (d *SQLstore) UserFindByUsername(u string) (*model.User, error) {
+func (d *SQLstore) UserFindByKeyword(u string) (*model.User, error) {
 	var DB = DBopen()
 
-	row, err := DB.Query("SELECT * FROM userdata where username = $1", u)
+	row, err := DB.Query("SELECT * FROM userdata where id LIKE '%' || $1 || '%' OR team LIKE '%' || $1 || '%' OR firstname LIKE '%' || $1 || '%' OR lastname LIKE '%' || $1 || '%'", u)
 	if err != nil {
 		panic(err)
 	}
@@ -33,7 +35,7 @@ func (d *SQLstore) UserFindByUsername(u string) (*model.User, error) {
 	var es []model.User
 	for row.Next() {
 		var e model.User
-		err = row.Scan(&e.ID, &e.FirstName, &e.LastName, &e.Email, &e.Password, &e.Phone, &e.UserStatus)
+		err = row.Scan(&e.ID, &e.FirstName, &e.LastName, &e.Phone, &e.Email, &e.Password, &e.UserStatus, &e.Team)
 		if err != nil {
 			panic(err)
 		}
@@ -50,11 +52,116 @@ func (d *SQLstore) UserFindByUsername(u string) (*model.User, error) {
 
 	return nil, nil
 }
+func (s *SQLstore) UserFindByUserStatus(u int) (*model.User, error) {
+	log.Println(u)
+	var DB = DBopen()
+	switch u {
+	case 0:
+		row, err := DB.Query("SELECT * FROM userdata where status = 0")
+		if err != nil {
+			panic(err)
+		}
+		var es []model.User
+		for row.Next() {
+			var e model.User
+			err = row.Scan(&e.ID, &e.FirstName, &e.LastName, &e.Phone, &e.Email, &e.Password, &e.UserStatus, &e.Team)
+			if err != nil {
+				panic(err)
+			}
+			es = append(es, e)
+		}
+		if es == nil {
+			log.Println("Can't find anything")
+		} else {
+			log.Printf("%v", es)
+		}
+
+		defer row.Close()
+		defer DB.Close()
+
+		return nil, nil
+	case 1:
+		row, err := DB.Query("SELECT * FROM userdata where status = 1")
+		if err != nil {
+			panic(err)
+		}
+		var es []model.User
+		for row.Next() {
+			var e model.User
+			err = row.Scan(&e.ID, &e.FirstName, &e.LastName, &e.Phone, &e.Email, &e.Password, &e.UserStatus, &e.Team)
+			if err != nil {
+				panic(err)
+			}
+			es = append(es, e)
+		}
+		if es == nil {
+			log.Println("Can't find anything")
+		} else {
+			log.Printf("%v", es)
+		}
+
+		defer row.Close()
+		defer DB.Close()
+
+		return nil, nil
+	case 2:
+		row, err := DB.Query("SELECT * FROM userdata where status = 2")
+		if err != nil {
+			panic(err)
+		}
+		var es []model.User
+		for row.Next() {
+			var e model.User
+			err = row.Scan(&e.ID, &e.FirstName, &e.LastName, &e.Phone, &e.Email, &e.Password, &e.UserStatus, &e.Team)
+			if err != nil {
+				panic(err)
+			}
+			es = append(es, e)
+		}
+		if es == nil {
+			log.Println("Can't find anything")
+		} else {
+			log.Printf("%v", es)
+		}
+
+		defer row.Close()
+		defer DB.Close()
+
+		return nil, nil
+	case 3:
+		row, err := DB.Query("SELECT * FROM userdata where status = 3")
+		if err != nil {
+			panic(err)
+		}
+		var es []model.User
+		for row.Next() {
+			var e model.User
+			err = row.Scan(&e.ID, &e.FirstName, &e.LastName, &e.Phone, &e.Email, &e.Password, &e.UserStatus, &e.Team)
+			if err != nil {
+				panic(err)
+			}
+			es = append(es, e)
+		}
+		if es == nil {
+			log.Println("Can't find anything")
+		} else {
+			log.Printf("%v", es)
+		}
+
+		defer row.Close()
+		defer DB.Close()
+
+		return nil, nil
+	default:
+		log.Println("worng query")
+		return nil, errors.New("이상하다")
+	}
+}
 func (d *SQLstore) UserUpdates(u string, data *model.User) (*model.User, error) {
 	var db = DBopen()
 
-	updateDynStmt := "update userdata set firstname = $1, lastname = $2, email = $3, password = $4, phone_num = $5, status = $6 where email = $7"
-	_, er := db.Exec(updateDynStmt, data.FirstName, data.LastName, data.Email, data.Password, data.Phone, data.UserStatus, u)
+	updateDynStmt := "update userdata set firstname = $1, lastname = $2, email = $3, password = $4, phone_num = $5, status = $6, team = $6   where email = $8 "
+	_, er := db.Exec(updateDynStmt, data.FirstName, data.LastName, data.Email, data.Password, data.Phone, data.UserStatus, data.Team, u)
 
 	if er != nil {
 		panic(er)
@@ -63,17 +170,17 @@ func (d *SQLstore) UserUpdates(u string, data *model.User) (*model.User, error) 
 	defer db.Close()
 	return nil, nil
 }
-func (d *SQLstore) UserDelByName(u string) error {
+func (d *SQLstore) UserDelByKeyword(u1 string, u2 string) error {
 	var DB = DBopen()
 
-	row, err := DB.Query("DELETE FROM userdata where username = $1", u)
+	row, err := DB.Query("DELETE FROM userdata where email = $1 AND password = $2 ", u1, u2)
 	if err != nil {
 		panic(err)
 	}
 
 	for row.Next() {
 		var e model.User
-		err = row.Scan(&e.ID, &e.FirstName, &e.LastName, &e.Email, &e.Password, &e.Phone, &e.UserStatus)
+		err = row.Scan(&e.ID, &e.FirstName, &e.LastName, &e.Email, &e.Password, &e.Phone, &e.UserStatus, &e.Team)
 		if err != nil {
 			panic(err)
 		}
@@ -84,15 +191,35 @@ func (d *SQLstore) UserDelByName(u string) error {
 	defer DB.Close()
 
 	return nil
+}
+func (s *SQLstore) UserDelByStatusCode() error {
+	var DB = DBopen()
+	row, err := DB.Query("DELETE FROM userdata where status = 3")
+	if err != nil {
+		panic(err)
+	}
 
+	for row.Next() {
+		var e model.User
+		err = row.Scan(&e.ID, &e.FirstName, &e.LastName, &e.Phone, &e.Email, &e.Password, &e.UserStatus, &e.Team)
+		if err != nil {
+			panic(err)
+		}
+	}
+	log.Println("DELETED")
+
+	defer row.Close()
+	defer DB.Close()
+
+	return nil
 }
 
 /*********책**********/
 func (s *SQLstore) BookCreate(data *model.Book) error {
 	var db = DBopen()
 
-	insertDynStmt := `insert into "bookdata"("title", "author", "code", "codename, "quantity") values($1, $2, $3, $4, $5)`
-	_, er := db.Exec(insertDynStmt, data.Title, data.Author, data.CodeID, data.CodeName, data.Quantity)
+	insertDynStmt := `insert into "bookdata"("id", "title", "author", "code", "codename", "status","quantity") values($1, $2, $3, $4, $5, $6, $7)`
+	_, er := db.Exec(insertDynStmt, data.ID, data.Title, data.Author, data.CodeID, data.CodeName, data.Status, data.Quantity)
 
 	if er != nil {
 		panic(er)
@@ -101,11 +228,11 @@ func (s *SQLstore) BookCreate(data *model.Book) error {
 	defer db.Close()
 	return nil
 }
-func (s *SQLstore) BookUpdates(b string, data *model.Book) (*model.Book, error) { //todo
+func (s *SQLstore) BookUpdates(b string, data *model.Book) (*model.Book, error) {
 	var db = DBopen()
 	log.Println(b)
-	updateDynStmt := "UPDATE bookdata set title = $1, author = $2, code = $3, codename = $4, status = $5, quantity = $6 where title = $7"
-	_, er := db.Exec(updateDynStmt, data.Title, data.Author, data.CodeID, data.CodeName, data.Status, data.Quantity, b)
+	updateDynStmt := "UPDATE bookdata set id =$1, title = $2, author = $3, code = $4, codename = $5, status = $6, quantity = $7 where title = $8 OR id = $8"
+	_, er := db.Exec(updateDynStmt, data.ID, data.Title, data.Author, data.CodeID, data.CodeName, data.Status, data.Quantity, b)
 
 	if er != nil {
 		panic(er)
@@ -114,20 +241,16 @@ func (s *SQLstore) BookUpdates(b string, data *model.Book) (*model.Book, error) 
 	defer db.Close()
 	return nil, nil
 }
-func (s *SQLstore) BookFindByBookStatus(b string) (*model.Book, error) {
+func (s *SQLstore) BookFindByBookStatus(b int) (*model.Book, error) {
 	log.Println(b)
 	var DB = DBopen()
-	if b == "" {
-		log.Println("not found")
-	} else if b != "available" && b != "not_ available" && b != "available,not_available" && b != "not_available,available" {
-		log.Println("worng query")
-	}
-	if b == "available,not_available" || b == "not_available,available" {
-		row, err := DB.Query("SELECT * FROM bookdata where status = $1 OR status = $2", "available", "not_available")
+
+	switch b {
+	case 0:
+		row, err := DB.Query("SELECT * FROM bookdata where status = 0")
 		if err != nil {
 			panic(err)
 		}
-
 		var es []model.Book
 		for row.Next() {
 			var e model.Book
@@ -137,39 +260,122 @@ func (s *SQLstore) BookFindByBookStatus(b string) (*model.Book, error) {
 			}
 			es = append(es, e)
 		}
-		log.Printf("%v", es)
+		if es == nil {
+			log.Println("Can't find anything")
+		} else {
+			log.Printf("%v", es)
+		}
 
 		defer row.Close()
 		defer DB.Close()
 
 		return nil, nil
-	}
-
-	row, err := DB.Query("SELECT * FROM bookdata where status = $1 ", b)
-	if err != nil {
-		panic(err)
-	}
-
-	var es []model.Book
-	for row.Next() {
-		var e model.Book
-		err = row.Scan(&e.ID, &e.Title, &e.Author, &e.CodeID, &e.CodeName, &e.Status, &e.Quantity)
+	case 1:
+		row, err := DB.Query("SELECT * FROM bookdata where status = 1")
 		if err != nil {
 			panic(err)
 		}
-		es = append(es, e)
+		var es []model.Book
+		for row.Next() {
+			var e model.Book
+			err = row.Scan(&e.ID, &e.Title, &e.Author, &e.CodeID, &e.CodeName, &e.Status, &e.Quantity)
+			if err != nil {
+				panic(err)
+			}
+			es = append(es, e)
+		}
+		if es == nil {
+			log.Println("Can't find anything")
+		} else {
+			log.Printf("%v", es)
+		}
+
+		defer row.Close()
+		defer DB.Close()
+
+		return nil, nil
+	case 2:
+		row, err := DB.Query("SELECT * FROM bookdata where status = 2")
+		if err != nil {
+			panic(err)
+		}
+		var es []model.Book
+		for row.Next() {
+			var e model.Book
+			err = row.Scan(&e.ID, &e.Title, &e.Author, &e.CodeID, &e.CodeName, &e.Status, &e.Quantity)
+			if err != nil {
+				panic(err)
+			}
+			es = append(es, e)
+		}
+		if es == nil {
+			log.Println("Can't find anything")
+		} else {
+			log.Printf("%v", es)
+		}
+
+		defer row.Close()
+		defer DB.Close()
+
+		return nil, nil
+	case 3:
+		row, err := DB.Query("SELECT * FROM bookdata where status = 3")
+		if err != nil {
+			panic(err)
+		}
+		var es []model.Book
+		for row.Next() {
+			var e model.Book
+			err = row.Scan(&e.ID, &e.Title, &e.Author, &e.CodeID, &e.CodeName, &e.Status, &e.Quantity)
+			if err != nil {
+				panic(err)
+			}
+			es = append(es, e)
+		}
+		if es == nil {
+			log.Println("Can't find anything")
+		} else {
+			log.Printf("%v", es)
+		}
+
+		defer row.Close()
+		defer DB.Close()
+
+		return nil, nil
+	case 4:
+		row, err := DB.Query("SELECT * FROM bookdata where status = 4")
+		if err != nil {
+			panic(err)
+		}
+		var es []model.Book
+		for row.Next() {
+			var e model.Book
+			err = row.Scan(&e.ID, &e.Title, &e.Author, &e.CodeID, &e.CodeName, &e.Status, &e.Quantity)
+			if err != nil {
+				panic(err)
+			}
+			es = append(es, e)
+		}
+		if es == nil {
+			log.Println("Can't find anything")
+		} else {
+			log.Printf("%v", es)
+		}
+
+		defer row.Close()
+		defer DB.Close()
+
+		return nil, nil
+	default:
+		log.Println("worng query")
+		return nil, errors.New("이상하다")
 	}
-	log.Printf("%v", es)
-
-	defer row.Close()
-	defer DB.Close()
-
-	return nil, nil
 }
-func (s *SQLstore) BookFindByID(n int) error { //todo
+func (s *SQLstore) BookFindByKeyword(n string) error {
 	var DB = DBopen()
 	log.Println(n)
-	row, err := DB.Query("SELECT * FROM bookdata where id = $1", n)
+
+	row, err := DB.Query("SELECT * FROM bookdata where id LIKE '%' || $1 || '%' OR title LIKE '%' || $1 || '%' OR author LIKE '%' || $1 || '%'", n)
 	if err != nil {
 		panic(err)
 	}
@@ -194,10 +400,10 @@ func (s *SQLstore) BookFindByID(n int) error { //todo
 
 	return nil
 }
-func (s *SQLstore) BookDelByID(n int) error { //todo
+func (s *SQLstore) BookDelByKeyword(n string) error {
 	var DB = DBopen()
 	log.Println(n)
-	row, err := DB.Query("DELETE FROM bookdata where id = $1", n)
+	row, err := DB.Query("DELETE FROM bookdata where id = $1 OR title = $1", n)
 	if err != nil {
 		panic(err)
 	}
@@ -209,7 +415,28 @@ func (s *SQLstore) BookDelByID(n int) error { //todo
 			panic(err)
 		}
 	}
-	log.Println("DELETE")
+	log.Println("DELETED")
+
+	defer row.Close()
+	defer DB.Close()
+
+	return nil
+}
+func (s *SQLstore) BookDelByStatusCode() error {
+	var DB = DBopen()
+	row, err := DB.Query("DELETE FROM bookdata where status = 4")
+	if err != nil {
+		panic(err)
+	}
+
+	for row.Next() {
+		var e model.Book
+		err = row.Scan(&e.ID, &e.CodeID, &e.CodeName, &e.Title, &e.Author, &e.Status, &e.Quantity)
+		if err != nil {
+			panic(err)
+		}
+	}
+	log.Println("DELETED")
 
 	defer row.Close()
 	defer DB.Close()
@@ -218,73 +445,18 @@ func (s *SQLstore) BookDelByID(n int) error { //todo
 }
 
 /*********빌림*********/
-func (s *SQLstore) OrderCreate(data *model.Order) error {
-
+func (s *SQLstore) Rent(L1 string, L2 string) error {
 	var db = DBopen()
-
-	insertDynStmt := `insert into "orderdata" ("bookid", "quantity") values($1, $2)`
-	_, er := db.Exec(insertDynStmt, data.BookID, data.Quantity)
+	t := time.Now().Format("2006-01-02 15:04:05")
+	insertDynStmt := `insert into "log"("userid", "bookid", "rentaldate") values($1, $2, $3)`
+	_, er := db.Exec(insertDynStmt, L1, L2, t)
 
 	if er != nil {
 		panic(er)
 	}
 
 	defer db.Close()
-
 	return nil
-}
-func (s *SQLstore) OrderFindById(n int) error {
-	var DB = DBopen()
-	log.Println(n)
-	row, err := DB.Query("SELECT * FROM orderdata where orderid = $1", n)
-	if err != nil {
-		panic(err)
-	}
 
-	var es []model.Order
-	for row.Next() {
-		var e model.Order
-
-		err = row.Scan(&e.ID, &e.BookID, &e.Quantity, &e.Status, &e.Complete, &e.RentalDate)
-
-		if err != nil {
-			panic(err)
-		}
-		es = append(es, e)
-
-	}
-
-	if es == nil {
-		log.Println("Can't find anything")
-	} else {
-		log.Printf("%v", es)
-	}
-
-	defer row.Close()
-	defer DB.Close()
-
-	return nil
-}
-func (s *SQLstore) OrderDelById(n int) error {
-
-	var DB = DBopen()
-
-	row, err := DB.Query("DELETE FROM orderdata where orderid = $1", n)
-	if err != nil {
-		panic(err)
-	}
-
-	for row.Next() {
-		var e model.Order
-		err = row.Scan(&e.ID, &e.BookID, &e.Quantity, &e.Status, &e.Complete, &e.RentalDate)
-		if err != nil {
-			panic(err)
-		}
-	}
-	log.Println("DELETE")
-
-	defer row.Close()
-	defer DB.Close()
-
-	return nil
+	//todo 유저 아이디 / 북 아이디가 존재하지 않을 경우!!
 }
