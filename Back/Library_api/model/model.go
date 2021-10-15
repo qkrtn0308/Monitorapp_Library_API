@@ -29,13 +29,10 @@ type Book struct {
 	// default : 1
 }
 type Log struct {
-	UserID     string `json:"userid"`
-	BookID     string `json:"bookId" validate:"required, numeric"`
+	UserID     string `json:"userid" validate:"required"`
+	BookID     string `json:"bookId" validate:"required"`
 	RentalDate string `json:"rentaldate"`
 	Returndate string `json:"returndate"`
-	// YYYY-MM-DD hh:mm:ss
-	// t := time.Now().Format("YYYY-MM-DD hh:mm:ss")
-
 }
 
 var BookInfoByID = make(map[string]*Book)

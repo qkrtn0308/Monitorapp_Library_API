@@ -13,30 +13,33 @@ func main() {
 	// Middleware
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
-
+	//writing image sha256:9e385597603dd5a4838da36c2618a5cfb7b19d799ff486fa59980f9ed46d7828
 	// Routes
 	e.POST("/", f.Signup)
 	e.GET("/login", f.Login)
 	e.GET("/logout", f.Logout)
 
 	e.POST("/book", f.BookCreate)
-	e.GET("/book", f.FindUserByStatusCode)
-	e.GET("/book/:b_id", f.FindBookByKeyword)
 	e.GET("/book/code", f.FindBookByStatus)
-	e.PUT("/book/:b_id", f.BookUpdate)
+	e.GET("/book", f.FindBookByKeyword)
+	e.GET("/book/code/:keyword", f.FindBookByStatus)
+	e.PUT("/book/:keyword", f.BookUpdate)
 	e.DELETE("/book/:code4:", f.DelBookByStatusCode)
+	//del keyword => id 변경
 
 	e.POST("/user", f.UserCreate)
-	e.GET("/user/:u_name", f.FindUserByKeyword)
-	e.GET("/user/code", f.FindUserByStatusCode)
-	e.PUT("/user/:u_name", f.UserUpdate)
+	e.GET("/user/:keyword", f.FindUserByKeyword)
+	e.GET("/user/code/:keyword", f.FindUserByStatusCode)
+	e.PUT("/user/:keyword", f.UserUpdate)
 	e.DELETE("/user/key", f.DelUserByKeyword)
 	e.DELETE("/user/code3", f.DelUserByStatusCode)
 
 	e.POST("/library/rent", f.Rent)
-	e.GET("/libraryreturn", f.Return)
+	e.POST("/library/return", f.Return)
 
 	//start server
 	e.Start(":4000")
 
 }
+
+//우분투 20.04 -> 도커 파일 -> 도커 라이즈

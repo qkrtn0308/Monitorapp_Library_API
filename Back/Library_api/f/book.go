@@ -46,10 +46,11 @@ func BookUpdate(c echo.Context) error {
 func FindBookByStatus(c echo.Context) error {
 	/**************데이터 받음****************/
 	b := c.QueryParam("status")
-	log.Printf("%s", b)
+	b2 := c.QueryParam("sort")
 	n, _ := strconv.Atoi(b)
+	log.Printf("%s", b)
 
-	_, err := s.BookFindByBookStatus(n)
+	_, err := s.BookFindByBookStatus(n, b2)
 	if err != nil {
 		return c.NoContent(http.StatusInternalServerError)
 	}
@@ -57,13 +58,15 @@ func FindBookByStatus(c echo.Context) error {
 	return c.String(http.StatusOK, b)
 }
 func FindBookByKeyword(c echo.Context) error {
-	b := c.Param("b_id")
-	if len(b) < 3 {
+	b := c.QueryParam("keyword")
+	b2 := c.QueryParam("sort")
+	log.Printf("%s, %s", b, b2)
+	if len(b) < 2 {
 		return c.String(404, "검색할 키워드가 너무 짧습니다.")
 	}
 	log.Println(c.Request().URL.String())
 
-	err := s.BookFindByKeyword(b)
+	err := s.BookFindByKeyword(b, b2)
 	if err != nil {
 		return c.NoContent(http.StatusInternalServerError)
 	}
@@ -73,7 +76,7 @@ func FindBookByKeyword(c echo.Context) error {
 func DelBookBykeyword(c echo.Context) error {
 	b := c.Param("b_id")
 
-	err := s.BookDelByKeyword(b)
+	err := s.BookDelById(b)
 	if err != nil {
 		return c.NoContent(http.StatusInternalServerError)
 	}

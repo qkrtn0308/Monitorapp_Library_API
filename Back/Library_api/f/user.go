@@ -30,7 +30,7 @@ func UserCreate(c echo.Context) error {
 }
 func FindUserByKeyword(c echo.Context) error {
 	/**************데이터 받음****************/
-	u := c.Param("u_name")
+	u := c.Param("keyword")
 	/****************데이터굴려**************/
 	_, err := s.UserFindByKeyword(u)
 	if err != nil {
@@ -40,7 +40,7 @@ func FindUserByKeyword(c echo.Context) error {
 }
 func FindUserByStatusCode(c echo.Context) error {
 	/**************데이터 받음****************/
-	u := c.Param("u_name")
+	u := c.Param("keyword")
 	n, _ := strconv.Atoi(u)
 	/****************데이터굴려**************/
 	_, err := s.UserFindByUserStatus(n)
@@ -51,7 +51,7 @@ func FindUserByStatusCode(c echo.Context) error {
 }
 func UserUpdate(c echo.Context) error {
 	/**************데이터 받음****************/
-	u := c.Param("u_name")
+	u := c.Param("keyword")
 
 	bodydata, _ := io.ReadAll(c.Request().Body)
 	defer c.Request().Body.Close()

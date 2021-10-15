@@ -16,15 +16,13 @@ type Store interface {
 	/**********책*********/
 	BookCreate(*model.Book) error
 	BookUpdates(string, *model.Book) (*model.Book, error)
-	BookFindByBookStatus(int) (*model.Book, error)
-	BookFindByKeyword(string) error
-	BookDelByKeyword(string) error
+	BookFindByBookStatus(int, string) (*model.Book, error)
+	BookFindByKeyword(string, string) error
+	BookDelById(string) error
 	BookDelByStatusCode() error
 	/*********오더*********/
 	Rent(string, string) error
 	Return(string, string) error
-	// OrderFindById(int) error
-	// OrderDelById(int) error
 }
 
 func New(storeType string) Store {

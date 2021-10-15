@@ -8,24 +8,39 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/go-playground/validator"
 	"github.com/labstack/echo"
 )
 
 func Login(c echo.Context) error {
-	a := c.QueryParam("username")
+	a := c.QueryParam("email")
 	b := c.QueryParam("password")
 
-	validator.New()
-	if model.UserInfoByEmail[a] == nil {
-		return c.NoContent(http.StatusBadRequest)
+	var DB = sqlstore.DBopen()
+
+	row, err := DB.Query("SELECT * FROM userdata where email = $1 AND password = $2", a, b)
+	if err != nil {
+		panic(err)
 	}
 
-	if model.UserInfoByEmail[a].Email == a && model.UserInfoByEmail[a].Password == b {
-		return c.String(http.StatusOK, "로그인 되었습니다~~")
-	} else {
-		return c.NoContent(http.StatusBadRequest)
+	var es []model.User
+	var e model.User
+	for row.Next() {
+		err = row.Scan(&e.ID, &e.FirstName, &e.LastName, &e.Phone, &e.Email, &e.Password, &e.UserStatus, &e.Team)
+		if err != nil {
+			panic(err)
+		}
+		es = append(es, e)
 	}
+	if es == nil {
+		log.Println("이메일 비밀번호 틀림")
+	} else {
+		log.Printf("%v팀 %v %v님 환영합니다!", e.Team, e.LastName, e.FirstName)
+	}
+
+	defer row.Close()
+	defer DB.Close()
+
+	return c.NoContent(200)
 }
 
 func Logout(c echo.Context) error {
