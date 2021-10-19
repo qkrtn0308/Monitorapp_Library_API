@@ -388,7 +388,7 @@ func (s *SQLstore) BookFindByKeyword(n string, b2 string) error {
 	var es []model.Book
 	for row.Next() {
 		var e model.Book
-		err = row.Scan(&e.ID, &e.Title, &e.Author, &e.CodeID, &e.CodeName, &e.Status, &e.Quantity)
+		err = row.Scan(&e.ID, &e.Title, &e.Author, &e.CodeID, &e.CodeName, &e.Status, &e.Quantity, &e.ReleaseDate)
 		if err != nil {
 			panic(err)
 		}

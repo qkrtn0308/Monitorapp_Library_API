@@ -9,11 +9,11 @@ import (
 )
 
 const (
-	host     = "localhost"
+	host     = "172.19.0.3"
 	port     = 5432
-	user     = "subin"
+	user     = "postgres"
 	password = "1234qwer!"
-	dbname   = "libraryApi"
+	dbname   = "postgres"
 )
 
 func DBopen() (db *sql.DB) {

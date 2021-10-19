@@ -22,7 +22,6 @@ func main() {
 	e.POST("/book", f.BookCreate)
 	e.GET("/book/code", f.FindBookByStatus)
 	e.GET("/book", f.FindBookByKeyword)
-	e.GET("/book/code/:keyword", f.FindBookByStatus)
 	e.PUT("/book/:keyword", f.BookUpdate)
 	e.DELETE("/book/:code4:", f.DelBookByStatusCode)
 	//del keyword => id 변경

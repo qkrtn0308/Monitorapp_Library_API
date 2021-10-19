@@ -27,6 +27,7 @@ type Book struct {
 	// 0 : 추가예정, 1 : 대출가능, 2 : 대출중, 3 : 대출금지(훼손/분실_복구예정), 4 : 대출금지(훼손/분실_삭제예정)
 	Quantity int64 `json:"quantity"`
 	// default : 1
+	ReleaseDate string `json:"releasedate"`
 }
 type Log struct {
 	UserID     string `json:"userid" validate:"required"`
