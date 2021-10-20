@@ -19,8 +19,7 @@ import {
 
 const InfoSection = () => {
     return (
-        <>
-            <InfoContainer >
+            <InfoContainer id="infosection" >
                 <InfoWrapper>
                     <InfoRow >
                         <Column1>
@@ -42,7 +41,6 @@ const InfoSection = () => {
                     </InfoRow>
                 </InfoWrapper>
             </InfoContainer>
-        </>
     );
 };
 export default InfoSection;

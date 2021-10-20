@@ -3,7 +3,7 @@ import react from 'react'
 const FindpasswordPage  = () => {
     return (
         <div>
-            <h1>Findpasswor dPage</h1>
+            <h1>Find password Page</h1>
         </div>
     )
 }

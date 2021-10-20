@@ -1,12 +1,12 @@
 import react from 'react'
+import JINBookPage from '../components/JINBookPage';
 
 const BookPage  = () => {
     return (
         <div>
-            <h1>Book Page</h1>
+            <JINBookPage/>
         </div>
     )
 }
 
 export default BookPage;
-

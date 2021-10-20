@@ -217,8 +217,7 @@ func (s *SQLstore) UserDelByStatusCode() error {
 /*********책**********/
 func (s *SQLstore) BookCreate(data *model.Book) error {
 	var db = DBopen()
-
-	insertDynStmt := `insert into "bookdata"("id", "title", "author", "code", "codename", "status","quantity") values($1, $2, $3, $4, $5, $6, $7)`
+	insertDynStmt := `insert into "bookdata"("id", "title", "author", "code", "codename", "status","quantity", "releasedate") values($1, $2, $3, $4, $5, $6, $7)`
 	_, er := db.Exec(insertDynStmt, data.ID, data.Title, data.Author, data.CodeID, data.CodeName, data.Status, data.Quantity)
 
 	if er != nil {
@@ -231,8 +230,8 @@ func (s *SQLstore) BookCreate(data *model.Book) error {
 func (s *SQLstore) BookUpdates(b string, data *model.Book) (*model.Book, error) {
 	var db = DBopen()
 	log.Println(b)
-	updateDynStmt := "UPDATE bookdata set id =$1, title = $2, author = $3, code = $4, codename = $5, status = $6, quantity = $7 where id = $8"
-	_, er := db.Exec(updateDynStmt, data.ID, data.Title, data.Author, data.CodeID, data.CodeName, data.Status, data.Quantity, b)
+	updateDynStmt := "UPDATE bookdata set id =$1, title = $2, author = $3, code = $4, codename = $5, status = $6, quantity = $7, releasedate = $8 where id = $9"
+	_, er := db.Exec(updateDynStmt, data.ID, data.Title, data.Author, data.CodeID, data.CodeName, data.Status, data.Quantity, data.ReleaseDate, b)
 
 	if er != nil {
 		panic(er)
@@ -255,7 +254,7 @@ func (s *SQLstore) BookFindByBookStatus(b int, b2 string) (*model.Book, error) {
 		var es []model.Book
 		for row.Next() {
 			var e model.Book
-			err = row.Scan(&e.ID, &e.Title, &e.Author, &e.CodeID, &e.CodeName, &e.Status, &e.Quantity)
+			err = row.Scan(&e.ID, &e.Title, &e.Author, &e.CodeID, &e.CodeName, &e.Status, &e.Quantity, &e.ReleaseDate)
 			if err != nil {
 				panic(err)
 			}
@@ -280,7 +279,7 @@ func (s *SQLstore) BookFindByBookStatus(b int, b2 string) (*model.Book, error) {
 		var es []model.Book
 		for row.Next() {
 			var e model.Book
-			err = row.Scan(&e.ID, &e.Title, &e.Author, &e.CodeID, &e.CodeName, &e.Status, &e.Quantity)
+			err = row.Scan(&e.ID, &e.Title, &e.Author, &e.CodeID, &e.CodeName, &e.Status, &e.Quantity, &e.ReleaseDate)
 			if err != nil {
 				panic(err)
 			}
@@ -305,7 +304,7 @@ func (s *SQLstore) BookFindByBookStatus(b int, b2 string) (*model.Book, error) {
 		var es []model.Book
 		for row.Next() {
 			var e model.Book
-			err = row.Scan(&e.ID, &e.Title, &e.Author, &e.CodeID, &e.CodeName, &e.Status, &e.Quantity)
+			err = row.Scan(&e.ID, &e.Title, &e.Author, &e.CodeID, &e.CodeName, &e.Status, &e.Quantity, &e.ReleaseDate)
 			if err != nil {
 				panic(err)
 			}
@@ -330,7 +329,7 @@ func (s *SQLstore) BookFindByBookStatus(b int, b2 string) (*model.Book, error) {
 		var es []model.Book
 		for row.Next() {
 			var e model.Book
-			err = row.Scan(&e.ID, &e.Title, &e.Author, &e.CodeID, &e.CodeName, &e.Status, &e.Quantity)
+			err = row.Scan(&e.ID, &e.Title, &e.Author, &e.CodeID, &e.CodeName, &e.Status, &e.Quantity, &e.ReleaseDate)
 			if err != nil {
 				panic(err)
 			}
@@ -355,7 +354,7 @@ func (s *SQLstore) BookFindByBookStatus(b int, b2 string) (*model.Book, error) {
 		var es []model.Book
 		for row.Next() {
 			var e model.Book
-			err = row.Scan(&e.ID, &e.Title, &e.Author, &e.CodeID, &e.CodeName, &e.Status, &e.Quantity)
+			err = row.Scan(&e.ID, &e.Title, &e.Author, &e.CodeID, &e.CodeName, &e.Status, &e.Quantity, &e.ReleaseDate)
 			if err != nil {
 				panic(err)
 			}
@@ -415,7 +414,7 @@ func (s *SQLstore) BookDelById(n string) error {
 
 	for row.Next() {
 		var e model.Book
-		err = row.Scan(&e.ID, &e.CodeID, &e.CodeName, &e.Title, &e.Author, &e.Status, &e.Quantity)
+		err = row.Scan(&e.ID, &e.CodeID, &e.CodeName, &e.Title, &e.Author, &e.Status, &e.Quantity, &e.ReleaseDate)
 		if err != nil {
 			panic(err)
 		}
@@ -436,7 +435,7 @@ func (s *SQLstore) BookDelByStatusCode() error {
 
 	for row.Next() {
 		var e model.Book
-		err = row.Scan(&e.ID, &e.CodeID, &e.CodeName, &e.Title, &e.Author, &e.Status, &e.Quantity)
+		err = row.Scan(&e.ID, &e.CodeID, &e.CodeName, &e.Title, &e.Author, &e.Status, &e.Quantity, &e.ReleaseDate)
 		if err != nil {
 			panic(err)
 		}

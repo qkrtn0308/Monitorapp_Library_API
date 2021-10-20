@@ -12,7 +12,7 @@ services:
       - ./docker/data:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=postgres
-      - POSTGRES_HOST=172.19.0.3
+      - POSTGRES_HOST=172.18.0.3
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=1234qwer!
       - POSTGRES_INITDB_ARGS=--encoding=ko_KR ko_KR.UTF-8

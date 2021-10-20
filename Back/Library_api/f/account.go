@@ -32,15 +32,14 @@ func Login(c echo.Context) error {
 		es = append(es, e)
 	}
 	if es == nil {
-		log.Println("이메일 비밀번호 틀림")
-	} else {
-		log.Printf("%v팀 %v %v님 환영합니다!", e.Team, e.LastName, e.FirstName)
+		a = ("이메일 비밀번호 틀림")
+		return c.String(200, a)
 	}
+	b = e.Team + "팀" + e.LastName + " " + e.FirstName + "님 환영합니다!"
 
 	defer row.Close()
 	defer DB.Close()
-
-	return c.NoContent(200)
+	return c.String(200, b)
 }
 
 func Logout(c echo.Context) error {

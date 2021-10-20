@@ -16,7 +16,7 @@ func main() {
 	//writing image sha256:9e385597603dd5a4838da36c2618a5cfb7b19d799ff486fa59980f9ed46d7828
 	// Routes
 	e.POST("/", f.Signup)
-	e.GET("/login", f.Login)
+	e.POST("/login", f.Login)
 	e.GET("/logout", f.Logout)
 
 	e.POST("/book", f.BookCreate)
