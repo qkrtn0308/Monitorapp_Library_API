@@ -67,16 +67,20 @@ export const Form = styled.form`
 `
 
 export const FormH1 = styled.h1`
-    margin-bottom: 40px;
+    margin-bottom: 15px;
     color: #000;
     font-size: 40px;
     font-weight: 400;
     text-align: center;
 `
-export const FormLabel = styled.label`
-    margin-bottom: 8px;
+
+export const H1 = styled.h1`
+    margin-bottom: 40px;
     color: #000;
-    font-size: 14px;
+    font-size: 20px;
+    font-weight: 400;
+    text-align: center;
+    cursor: pointer;
 `
 export const Input = styled.input`
     padding: 16px 16px;
@@ -92,5 +96,13 @@ export const FormButton= styled.button`
     border-radius: 4px;
     color: #fff;
     font-size: 20px;
+    cursor: pointer;
+`
+export const Text= styled(Link)`
+
+    text-align: center;
+    margin-bottom: 15px;
+    color: #000;
+    font-size: 14px;
     cursor: pointer;
 `

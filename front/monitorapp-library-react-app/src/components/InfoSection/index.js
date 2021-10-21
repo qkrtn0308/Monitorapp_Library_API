@@ -28,13 +28,13 @@ const InfoSection = () => {
                                 <Heading>MONITORAPP LIBRARY</Heading>
                                 <Subtitle>MONITORAPP library is at the 8th floor. This API helps both admin and user perfectly. Don't waste your precious time for Finding or making up datas. Just Use. Than, you can feel difference.   </Subtitle>
                                 <InfoBtn>
-                                    <InfoBtnLink to="/about">About more</InfoBtnLink>
+                                    <InfoBtnLink to="/signin">About more</InfoBtnLink>
                                 </InfoBtn>
                             </TextWrapper>
                         </Column1>
                         <Column2>
                             <ImgWrap>
-                                <Img src={ imgA  } />
+                                <Img src={ imgA } />
                             </ImgWrap>
                         </Column2>
                         

@@ -12,12 +12,15 @@ import (
 )
 
 func Login(c echo.Context) error {
-	a := c.QueryParam("email")
-	b := c.QueryParam("password")
+	bodydata, _ := io.ReadAll(c.Request().Body)
+	defer c.Request().Body.Close()
 
+	data := model.User{}
+	json.Unmarshal(bodydata, &data)
+	/****************데이터굴려**************/
 	var DB = sqlstore.DBopen()
 
-	row, err := DB.Query("SELECT * FROM userdata where email = $1 AND password = $2", a, b)
+	row, err := DB.Query("SELECT * FROM userdata where email = $1 AND password = $2", data.Email, data.Password)
 	if err != nil {
 		panic(err)
 	}
@@ -32,10 +35,10 @@ func Login(c echo.Context) error {
 		es = append(es, e)
 	}
 	if es == nil {
-		a = ("이메일 비밀번호 틀림")
+		a := ("이메일 비밀번호 틀림")
 		return c.String(200, a)
 	}
-	b = e.Team + "팀" + e.LastName + " " + e.FirstName + "님 환영합니다!"
+	b := e.Team + "팀" + e.LastName + " " + e.FirstName + "님 환영합니다!"
 
 	defer row.Close()
 	defer DB.Close()

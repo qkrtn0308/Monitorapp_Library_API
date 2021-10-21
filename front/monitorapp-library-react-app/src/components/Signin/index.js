@@ -33,7 +33,7 @@ class SignIn extends Component {
                             <FormButton 
                                 type='submit'
                                 >
-                                    Continue</FormButton>
+                                Continue</FormButton>
                             <Text to="/help" >Forgot password</Text>
                             <Text to="/signup" >NEW USER</Text>
                         </Form>

@@ -548,3 +548,9 @@ func (s *SQLstore) Return(L1 string, L2 string) error {
 	defer DB.Close()
 	return nil
 }
+func (s *SQLstore) FindRentByID() error {
+	return nil
+}
+func (s *SQLstore) FindReturnByID() error {
+	return nil
+}

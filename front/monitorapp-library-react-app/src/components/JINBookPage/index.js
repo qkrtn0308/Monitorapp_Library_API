@@ -1,9 +1,14 @@
+import React, {useState} from "react";
+import { Container, FormWrap, FormContent, Icon, Form, FormH1, Input, FormButton, Text } from "./BookPageElements";
+import axios from 'axios'
 
-import React from "react";
-import { Container, FormWrap, FormContent, Icon, Form, FormH1, FormLabel, Input, FormButton } from "./BookPageElements";
+const JINBookPage = async() => {
+    axios.get('http://localhost:4000/', {
+        params: {
+            keyword: this.state
+        }
+    });
 
-
-const JINBookPage = () => {
     return(
         <Container className="main-form">
             <FormWrap>
@@ -11,9 +16,10 @@ const JINBookPage = () => {
                     <FormContent>
                         <Form id='form'>
                             <FormH1>search test</FormH1>
-                            <FormLabel >코드</FormLabel>
+                            <Text to="/book" >키워드로 찾기</Text>
+                            <Text to="/book/code">상태 코드</Text>
                             <Input name="status" type='text' required/>
-                            <FormButton type='submit'>검색</FormButton>
+                            <FormButton type='button'>검색</FormButton>
                         </Form>
                 </FormContent>
             </FormWrap>

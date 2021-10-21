@@ -23,6 +23,8 @@ type Store interface {
 	/*********오더*********/
 	Rent(string, string) error
 	Return(string, string) error
+	FindRentByID() error
+	FindReturnByID() error
 }
 
 func New(storeType string) Store {

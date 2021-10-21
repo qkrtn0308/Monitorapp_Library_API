@@ -29,3 +29,9 @@ func Return(c echo.Context) error {
 	}
 	return c.NoContent(http.StatusOK)
 }
+func FindRentByID(c echo.Context) error {
+	return c.NoContent(http.StatusOK)
+}
+func FindReturnByID(c echo.Context) error {
+	return c.NoContent(http.StatusOK)
+}

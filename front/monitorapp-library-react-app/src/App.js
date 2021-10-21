@@ -10,6 +10,7 @@ import UserPage from "./pages/user";
 import AboutPage from "./pages/about";
 import SignupPage from "./pages/signup";
 import FindpasswordPage from "./pages/findpassword"
+import AdminPage from "./pages/Admin";
 
 
 function App() {
@@ -17,8 +18,10 @@ function App() {
         <Router>
             <Switch>
                 <Route path="/" component={Home} exact />
+                <Route path="/Admin" component={AdminPage} exact />
                 <Route path="/about" component={AboutPage} exact />
                 <Route path="/book" component={BookPage} exact />
+                <Route path="/book/code" component={BookPage} exact />
                 <Route path="/rent-return" component={RentReturnPage} exact />
                 <Route path="/user" component={UserPage} exact />
                 <Route path="/signin" component={SigninPage} exact />
