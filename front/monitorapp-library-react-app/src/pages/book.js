@@ -1,12 +1,22 @@
-import react from 'react'
-import JINBookPage from '../components/JINBookPage';
+import react, {useState} from 'react'
+import Sidebar from '../components/Sidebar';
+import Navbar from '../components/Navbar'
+import BookPageIndex from '../components/BookPageIndex';
 
-const BookPage  = () => {
+const BookPage = () => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggle = () => {
+        setIsOpen(!isOpen);
+    };
+
     return (
-        <div>
-            <JINBookPage/>
-        </div>
-    )
-}
+        <>
+            <Sidebar isOpen={isOpen} toggle={toggle} />
+            <Navbar toggle={toggle} />
+            <BookPageIndex/>
+        </>
+    );
+};
 
 export default BookPage;

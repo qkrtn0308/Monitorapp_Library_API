@@ -50,12 +50,18 @@ func FindBookByStatus(c echo.Context) error {
 	n, _ := strconv.Atoi(b)
 	log.Printf("%s", b)
 
-	_, err := s.BookFindByBookStatus(n, b2)
+	log.Print(b2, n)
+
+	u, err := s.BookFindByBookStatus(n, b2)
 	if err != nil {
+		c.Response().Header().Set("Access-Control-Allow-Origin", "*")
+		c.Response().Header().Set("Access-Control-Allow-Methods", "OPTIONS, GET, POST, PUT")
 		return c.NoContent(http.StatusInternalServerError)
 	}
 
-	return c.String(http.StatusOK, b)
+	c.Response().Header().Set("Access-Control-Allow-Origin", "*")
+	c.Response().Header().Set("Access-Control-Allow-Methods", "OPTIONS, GET, POST, PUT")
+	return c.JSON(http.StatusOK, u)
 }
 func FindBookByKeyword(c echo.Context) error {
 	b := c.QueryParam("keyword")

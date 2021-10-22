@@ -1,10 +1,19 @@
-import react from 'react'
-
+import react, {useState} from 'react'
+import Sidebar from '../components/Sidebar';
+import Navbar from '../components/Navbar'
+import Main from '../components/Test';
 const AdminPage  = () => {
+
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggle = () => {
+        setIsOpen(!isOpen);
+    };
+
     return (
-        <div>
-            <h1>도서관 관리자 페이지 </h1>
-        </div>
+        <>
+            <Main/>
+        </>
     )
 }
 

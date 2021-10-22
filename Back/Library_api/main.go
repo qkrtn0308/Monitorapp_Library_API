@@ -13,6 +13,8 @@ func main() {
 	// Middleware
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
+
+	e.Use(middleware.CORS())
 	//writing image sha256:9e385597603dd5a4838da36c2618a5cfb7b19d799ff486fa59980f9ed46d7828
 	// Routes
 	e.POST("/", f.Signup)

@@ -17,6 +17,13 @@ func Login(c echo.Context) error {
 
 	data := model.User{}
 	json.Unmarshal(bodydata, &data)
+
+	if data.Email == "" || data.Password == "" {
+		c.Response().Header().Set("Access-Control-Allow-Origin", "*")
+		c.Response().Header().Set("Access-Control-Allow-Methods", "POST")
+		return c.String(http.StatusOK, "비었스")
+	}
+
 	/****************데이터굴려**************/
 	var DB = sqlstore.DBopen()
 
@@ -25,24 +32,24 @@ func Login(c echo.Context) error {
 		panic(err)
 	}
 
-	var es []model.User
 	var e model.User
 	for row.Next() {
 		err = row.Scan(&e.ID, &e.FirstName, &e.LastName, &e.Phone, &e.Email, &e.Password, &e.UserStatus, &e.Team)
 		if err != nil {
 			panic(err)
 		}
-		es = append(es, e)
 	}
-	if es == nil {
-		a := ("이메일 비밀번호 틀림")
-		return c.String(200, a)
+	if e.Email == data.Email && e.Password == data.Password {
+		a := e.Team + "팀 " + e.LastName + " " + e.FirstName + "님 환영합니다!"
+		defer row.Close()
+		defer DB.Close()
+		return c.String(http.StatusOK, a)
 	}
-	b := e.Team + "팀" + e.LastName + " " + e.FirstName + "님 환영합니다!"
+	b := ("이메일 비밀번호 틀림")
 
 	defer row.Close()
 	defer DB.Close()
-	return c.String(200, b)
+	return c.String(http.StatusOK, b)
 }
 
 func Logout(c echo.Context) error {

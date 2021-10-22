@@ -1,13 +1,12 @@
 import React from "react";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
+import 'antd/dist/antd.css'
 import Home from "./pages";
 import SigninPage from "./pages/signin";
 import BookPage from "./pages/book";
 import RentReturnPage from "./pages/rent-return";
 import UserPage from "./pages/user";
-import AboutPage from "./pages/about";
 import SignupPage from "./pages/signup";
 import FindpasswordPage from "./pages/findpassword"
 import AdminPage from "./pages/Admin";
@@ -19,7 +18,6 @@ function App() {
             <Switch>
                 <Route path="/" component={Home} exact />
                 <Route path="/Admin" component={AdminPage} exact />
-                <Route path="/about" component={AboutPage} exact />
                 <Route path="/book" component={BookPage} exact />
                 <Route path="/book/code" component={BookPage} exact />
                 <Route path="/rent-return" component={RentReturnPage} exact />

@@ -16,7 +16,7 @@ type Store interface {
 	/**********책*********/
 	BookCreate(*model.Book) error
 	BookUpdates(string, *model.Book) (*model.Book, error)
-	BookFindByBookStatus(int, string) (*model.Book, error)
+	BookFindByBookStatus(int, string) ([]model.Book, error)
 	BookFindByKeyword(string, string) error
 	BookDelById(string) error
 	BookDelByStatusCode() error

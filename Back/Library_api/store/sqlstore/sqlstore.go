@@ -240,7 +240,7 @@ func (s *SQLstore) BookUpdates(b string, data *model.Book) (*model.Book, error) 
 	defer db.Close()
 	return nil, nil
 }
-func (s *SQLstore) BookFindByBookStatus(b int, b2 string) (*model.Book, error) {
+func (s *SQLstore) BookFindByBookStatus(b int, b2 string) ([]model.Book, error) {
 	log.Println(b)
 	var DB = DBopen()
 
@@ -269,7 +269,7 @@ func (s *SQLstore) BookFindByBookStatus(b int, b2 string) (*model.Book, error) {
 		defer row.Close()
 		defer DB.Close()
 
-		return nil, nil
+		return es, nil
 	case 1:
 		row, err := DB.Query("SELECT * FROM bookdata where status = 1 ORDER By $1", b2)
 		if err != nil {
@@ -294,7 +294,7 @@ func (s *SQLstore) BookFindByBookStatus(b int, b2 string) (*model.Book, error) {
 		defer row.Close()
 		defer DB.Close()
 
-		return nil, nil
+		return es, nil
 	case 2:
 		row, err := DB.Query("SELECT * FROM bookdata where status = 2 ORDER By $1", b2)
 		if err != nil {
@@ -319,7 +319,7 @@ func (s *SQLstore) BookFindByBookStatus(b int, b2 string) (*model.Book, error) {
 		defer row.Close()
 		defer DB.Close()
 
-		return nil, nil
+		return es, nil
 	case 3:
 		row, err := DB.Query("SELECT * FROM bookdata where status = 3 ORDER By $1", b2)
 		if err != nil {
@@ -344,7 +344,7 @@ func (s *SQLstore) BookFindByBookStatus(b int, b2 string) (*model.Book, error) {
 		defer row.Close()
 		defer DB.Close()
 
-		return nil, nil
+		return es, nil
 	case 4:
 		row, err := DB.Query("SELECT * FROM bookdata where status = 4 ORDER By $1", b2)
 		if err != nil {
@@ -369,7 +369,7 @@ func (s *SQLstore) BookFindByBookStatus(b int, b2 string) (*model.Book, error) {
 		defer row.Close()
 		defer DB.Close()
 
-		return nil, nil
+		return es, nil
 	default:
 		log.Println("worng query")
 		return nil, errors.New("이상하다")
