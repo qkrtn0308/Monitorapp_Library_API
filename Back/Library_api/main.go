@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Library_api/crawler"
 	"Library_api/f"
 
 	"github.com/labstack/echo"
@@ -37,6 +38,9 @@ func main() {
 
 	e.POST("/library/rent", f.Rent)
 	e.POST("/library/return", f.Return)
+
+	e.GET("/other/yes24", crawler.Crawling)
+	e.GET("/other/interpark", crawler.Interpark)
 
 	//start server
 	e.Start(":4000")
