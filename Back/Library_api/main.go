@@ -39,8 +39,12 @@ func main() {
 	e.POST("/library/rent", f.Rent)
 	e.POST("/library/return", f.Return)
 
+	//# open API
 	e.GET("/other/yes24", crawler.Crawling)
+	e.GET("/other/kyobo", crawler.Crawling)
+	//# Crawler
 	e.GET("/other/interpark", crawler.Interpark)
+	e.GET("/other/kakao", crawler.Kakao)
 
 	//start server
 	e.Start(":4000")

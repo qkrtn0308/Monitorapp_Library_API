@@ -11,26 +11,36 @@ import (
 	"github.com/labstack/echo"
 )
 
+//http://localhost:4000/other/kakao?query=getting
 const (
-	IUrl    = "http://book.interpark.com/api/search.api?key=7CD336F1E85935A4F1510B29C5A65BCB5D5C09CF78D0D2FDE0B1DBA045A28214&query="
-	OutputX = "&output=xml"
-	OutputJ = "&output=json"
+	KUrl = "https://dapi.kakao.com/v3/search/book?sort=accuracy&page=1&size=10&query="
+	Key  = "KakaoAK 7c0701bbd87d9ecf163ea94bab7578ad"
 )
 
-func Interpark(c echo.Context) error {
+func Kakao(c echo.Context) error {
 	/****쿼리 받음*******/
 	b := c.QueryParam("query")
 	log.Println(b)
-	req := IUrl + url.QueryEscape(b) + OutputJ
-	log.Println(req)
-	/****인터파크로 요청 보냄*******/
-	resp, err := http.Get(req)
+	url := KUrl + url.QueryEscape(b)
+	log.Println(url)
+	//# NewRequest로 리퀘스트 객체 req 생성
+	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		log.Print(err)
 	}
-	body, err := io.ReadAll(resp.Body)
+	//# req에 Authkey 헤더 설정
+	req.Header.Add("Authorization", Key)
 
+	cl := &http.Client{}
+	//# 생성한 요청 보냄
+	resp, err := cl.Do(req)
+	if err != nil {
+		log.Print(err)
+	}
+	//# 바디 데이터 받고 닫음
+	body, err := io.ReadAll(resp.Body)
 	resp.Body.Close()
+	//# 에러 출력
 	if resp.StatusCode > 299 {
 		log.Fatalf("Response failed with status code: %d and\nbody: %s\n", resp.StatusCode, body)
 	}
@@ -38,7 +48,7 @@ func Interpark(c echo.Context) error {
 		log.Fatal(err)
 	}
 
-	var data InterparkModel
+	var data KakaoModel
 	if err := json.Unmarshal(body, &data); err != nil { // Parse []byte to go struct pointer
 		fmt.Println("Can not unmarshal JSON")
 	}
