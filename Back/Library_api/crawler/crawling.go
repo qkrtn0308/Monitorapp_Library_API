@@ -69,10 +69,10 @@ func Crawling(c echo.Context) error {
 			// a := tr.Find("div", "class", "goods_rating")
 			// log.Print(a.HTML())
 
-			if checkNil := tr.Find("div", "class", "goods_rating"); len(checkNil.HTML()) < 1400 {
-				sellCount := "정보없음"
-				reviewCount := "정보없음"
-				starCount := "정보없음"
+			if checkNil := tr.Find("div", "class", "goods_rating"); len(checkNil.HTML()) < 100 {
+				sellCount := "정보 없음"
+				reviewCount := "정보 없음"
+				starCount := "정보 없음"
 
 				data[j].Cnt = cnt.Text()
 				data[j].ImageURL = image.Attrs()["src"]
@@ -85,7 +85,22 @@ func Crawling(c echo.Context) error {
 				data[j].Star = starCount
 				j++
 
-			} else {
+			} else if checkNil := tr.Find("div", "class", "goods_rating"); len(checkNil.HTML()) > 140 && len(checkNil.HTML()) < 1000 {
+				sellCount := tr.Find("span", "class", "gd_reviewCount")
+				reviewCount := "정보 없음"
+				starCount := "정보 없음"
+
+				data[j].Cnt = cnt.Text()
+				data[j].ImageURL = image.Attrs()["src"]
+				data[j].Title = title.Attrs()["alt"]
+				data[j].SubTitle = strings.Trim(subTitle.Text(), "\n ")
+				data[j].Infos = strings.Trim(infos.FullText(), "\n ")
+				data[j].Price = price.Text() + "원"
+				data[j].SellCount = strings.Trim(sellCount.Text(), "\n ")
+				data[j].ReviewCount = reviewCount
+				data[j].Star = starCount
+				j++
+			} else if checkNil := tr.Find("div", "class", "goods_rating"); len(checkNil.HTML()) >= 1000 {
 				sellCount := tr.Find("span", "class", "gd_reviewCount")
 				reviewCount := tr.Find("em", "class", "txC_blue")
 				starCount := tr.Find("span", "class", "gd_rating").Find("em", "class", "yes_b")
